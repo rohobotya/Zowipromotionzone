@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Confirm Payment</title>
+</head>
+<body>
+  <h2>Confirm Payment (Admin/Demo)</h2>
+  <form id="payForm">
+    <input type="text" id="phone" placeholder="User Phone" required>
+    <button type="submit">Confirm Payment</button>
+  </form>
+  <div id="out"></div>
+  <script>
+    document.getElementById('payForm').onsubmit = async function(e){
+      e.preventDefault();
+      const phone = document.getElementById('phone').value;
+      const res = await fetch('/confirm-payment', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({ phone })
+      });
+      const data = await res.json();
+      document.getElementById('out').innerText = data.success ? 'Referral Passkey: ' + data.passkey : (data.error || 'Error');
+    }
+  </script>
+</body>
+</html>
